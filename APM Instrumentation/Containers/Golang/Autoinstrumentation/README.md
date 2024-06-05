@@ -4,7 +4,7 @@
 - getErrorRequest and api endpoints are custom instrumented using Datadog Custom Instrumentation
 ---
 ## Outcome
-![Example Flame Graph in Datadog](image.png)
+![image](https://github.com/jon94/datadog-examples/assets/40360784/27fbbfaf-9d08-4ee7-82f3-7fad5f203e24)
 ---
 ### Local Testing
 - To test and visualize your implementation on Golang, you can use a docker-compose set up. 
