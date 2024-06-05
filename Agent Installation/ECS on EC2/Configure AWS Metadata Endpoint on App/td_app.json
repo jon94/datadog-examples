@@ -1,0 +1,86 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "flask_backend_ec2",
+            "image": "<replace with your image>",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "flask_backend_ec2-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                },
+                {
+                    "name": "flask_backend_ec2-5500-tcp",
+                    "containerPort": 5500,
+                    "hostPort": 5500,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [
+                "sh",
+                "-c",
+                "export DD_AGENT_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4); ddtrace-run python3 application.py"
+            ],
+            "environment": [
+                {
+                    "name": "SERVICE_NAME",
+                    "value": "test-ecs-ec2"
+                },                   
+                {
+                    "name": "DD_TRACE_SAMPLE_RATE",
+                    "value": "1"
+                },   
+                {
+                    "name": "DD_VERSION",
+                    "value": "1.0.0"
+                },
+                {
+                    "name": "DD_SERVICE",
+                    "value": "ec2-ecs-backend"
+                },
+                {
+                    "name": "DD_ENV",
+                    "value": "ec2-ecs"
+                },                                
+                {
+                    "name": "DD_RUNTIME_METRICS_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_APM_ENABLED",
+                    "value": "true"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "dockerLabels": {
+                "com.datadoghq.tags.env": "ec2-ecs",
+                "com.datadoghq.tags.service": "ec2-ecs-backend",
+                "com.datadoghq.tags.version": "1.0.0"
+            }
+        }
+    ],
+    "family": "jonlimecsec2app",
+    "networkMode": "awsvpc",
+    "revision": 7,
+    "volumes": [],
+    "status": "ACTIVE",
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}

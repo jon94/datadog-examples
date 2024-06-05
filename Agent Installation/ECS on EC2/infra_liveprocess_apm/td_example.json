@@ -1,0 +1,106 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "datadog-agent",
+            "image": "public.ecr.aws/datadog/agent:latest",
+            "cpu": 100,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 8126,
+                    "hostPort": 8126,
+                    "protocol": "tcp"
+                },
+                {
+                    "name": "datadog-agent-8125-udp",
+                    "containerPort": 8125,
+                    "hostPort": 8125,
+                    "protocol": "udp"
+                }                
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DD_API_KEY",
+                    "value": "<redacted>"
+                },
+                {
+                    "name": "DD_SITE",
+                    "value": "datadoghq.com"
+                },
+                {
+                    "name": "DD_PROCESS_AGENT_ENABLED",
+                    "value": "true"
+                },               
+                {
+                    "name": "DD_DOGSTATSD_NON_LOCAL_TRAFFIC",
+                    "value": "true"
+                }                
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "docker_sock",
+                    "containerPath": "/var/run/docker.sock"
+                },
+                {
+                    "sourceVolume": "cgroup",
+                    "containerPath": "/host/sys/fs/cgroup"
+                },
+                {
+                    "sourceVolume": "proc",
+                    "containerPath": "/host/proc"
+                },
+                {
+                    "sourceVolume": "pointdir",
+                    "containerPath": "/opt/datadog-agent/run",
+                    "readOnly": false
+                },
+                {
+                    "sourceVolume": "containers_root",
+                    "containerPath": "/var/lib/docker/containers",
+                    "readOnly": true
+                }
+            ],
+            "volumesFrom": []
+        }
+    ],
+    "family": "jonlim-ec2-datadog-agent-task",
+    "volumes": [
+        {
+            "name": "docker_sock",
+            "host": {
+                "sourcePath": "/var/run/docker.sock"
+            }
+        },
+        {
+            "name": "proc",
+            "host": {
+                "sourcePath": "/proc/"
+            }
+        },
+        {
+            "name": "cgroup",
+            "host": {
+                "sourcePath": "/sys/fs/cgroup/"
+            }
+        },
+        {
+            "name": "pointdir",
+            "host": {
+                "sourcePath": "/opt/datadog-agent/run"
+            }
+        },
+        {
+            "name": "containers_root",
+            "host": {
+                "sourcePath": "/var/lib/docker/containers/"
+            }
+        }
+    ],
+    "status": "ACTIVE",
+    "placementConstraints": [],
+    "compatibilities": [
+        "EXTERNAL",
+        "EC2"
+    ]
+}
