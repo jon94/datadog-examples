@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      // Feature flags
+      const featureFlags = {
+        useTriangleSymbol: false, // Set to true to use a triangle symbol
+      };
+
+      // Function to toggle the triangle symbol feature flag
+      function toggleTriangleSymbol() {
+        featureFlags.useTriangleSymbol = !featureFlags.useTriangleSymbol;
+
+        // Update the UI or perform any necessary actions
+        if (featureFlags.useTriangleSymbol) {
+          // Triangle symbol is enabled
+          alert('Triangle symbol enabled');
+        } else {
+          // Triangle symbol is disabled
+          alert('Triangle symbol disabled');
+        }
+        window.DD_RUM.addFeatureFlagEvaluation('useTriangleSymbol', featureFlags.useTriangleSymbol);
+      }
+
+      // Function to generate a random string of a given length
+      function generateRandomString(length) {
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          let result = '';
+          for (let i = 0; i < length; i++) {
+              result += characters.charAt(Math.floor(Math.random() * characters.length));
+          }
+          return result;
+      }
+
+      // Generate random user data
+      const randomUserId = generateRandomString(10); // Random user ID with 10 characters
+      const randomUsername = generateRandomString(8); // Random username with 8 characters
+      const randomEmail = `${randomUsername}@example.com`; // Email based on the random username
+
+      // Rest of your Datadog RUM initialization code
+      (function(h,o,u,n,d) {
+        h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
+        d=o.createElement(u);d.async=1;d.src=n
+        n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
+      })(window,document,'script','https://www.datadoghq-browser-agent.com/us1/v4/datadog-rum.js','DD_RUM')
+      window.DD_RUM.onReady(function() {
+        window.DD_RUM.init({
+          clientToken: '<redacted>',
+          applicationId: '<redacted>',
+          site: 'datadoghq.com',
+          service: 'tictactoe',
+          env: 'demo',
+          version: '1.1.0', 
+          sessionSampleRate: 100,
+          sessionReplaySampleRate: 100,
+          enableExperimentalFeatures: ["feature_flags"],
+          trackUserInteractions: true,
+          trackFrustrations: true,
+          trackResources: true,
+          trackLongTasks: true,
+          defaultPrivacyLevel: 'mask-user-input',
+        });
+        window.DD_RUM.setUser({
+              id: randomUserId,
+              name: randomUsername,
+              email: randomEmail,
+              // You can add other user properties as needed
+          });
+        
+        // Send feature flag evaluation to Datadog RUM
+        window.DD_RUM.startSessionReplayRecording();
+      })
+    </script>  
+</head>
+<body>
+  <div class="game-container">
+      <h1>Tic Tac Toe</h1>
+      <div class="board">
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+          <div class="cell" onclick="toggleSymbol(this)"></div>
+      </div>
+      <div class="status">Player X's Turn</div>
+      <button class="toggle-symbol-button" onclick="toggleTriangleSymbol()">Feature Flag Toggle</button>
+      <button class="reset-button" onclick="resetGame()">New Game</button>
+  </div>
+  <div class="result-screen">
+      <div class="result-message" id="result-message"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
