@@ -1,0 +1,250 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-south-1:601427279990:task-definition/jonlim-fargate-app-and-datadog:35",
+    "containerDefinitions": [
+        {
+            "name": "flask_backend_fargate",
+            "image": "jonlimpw/fargatepybackend:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "flask_backend_fargate-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                },
+                {
+                    "name": "flask_backend_fargate-5500-tcp",
+                    "containerPort": 5500,
+                    "hostPort": 5500,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DD_TRACE_SAMPLE_RATE",
+                    "value": "1"
+                },
+                {
+                    "name": "DD_VERSION",
+                    "value": "1.0.2"
+                },
+                {
+                    "name": "DD_RUNTIME_METRICS_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_SERVICE",
+                    "value": "fargate-python"
+                },
+                {
+                    "name": "DD_APM_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_ENV",
+                    "value": "fargate-ecs"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "dockerLabels": {
+                "com.datadoghq.tags.env": "fargate-ecs",
+                "com.datadoghq.tags.service": "fargate-python",
+                "com.datadoghq.tags.version": "1.0.2",
+                "com.docker.service.name": "fargate-python"
+            },
+            "logConfiguration": {
+                "logDriver": "awsfirelens",
+                "options": {
+                    "Host": "http-intake.logs.datadoghq.com",
+                    "Name": "datadog",
+                    "TLS": "on",
+                    "apikey": "",
+                    "dd_message_key": "log",
+                    "dd_service": "fargate-python",
+                    "dd_source": "python",
+                    "provider": "ecs"
+                }
+            }
+        },
+        {
+            "name": "react_frontend_fargate",
+            "image": "jonlimpw/fargatereactfe:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "react_frontend_fargate-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "dockerLabels": {
+                "com.docker.service.name": "fargate-python"
+            }
+        },
+        {
+            "name": "datadog-agent",
+            "image": "public.ecr.aws/datadog/agent:latest",
+            "cpu": 256,
+            "memoryReservation": 512,
+            "portMappings": [
+                {
+                    "name": "datadog-agent-8126-tcp",
+                    "containerPort": 8126,
+                    "hostPort": 8126,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DD_API_KEY",
+                    "value": <redacted>
+                },
+                {
+                    "name": "DD_CONTAINER_EXCLUDE",
+                    "value": "image:^aws-fargate-pause$ image:^public.ecr.aws/datadog/agent$"
+                },
+                {
+                    "name": "DD_PROCESS_AGENT_PROCESS_COLLECTION_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_SITE",
+                    "value": "datadoghq.com"
+                },
+                {
+                    "name": "ECS_FARGATE",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_APM_ENABLED",
+                    "value": "true"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": []
+        },
+        {
+            "name": "log_router",
+            "image": "amazon/aws-for-fluent-bit:stable",
+            "cpu": 0,
+            "portMappings": [],
+            "essential": false,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "user": "0",
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/jonlim-fargate-app-and-datadog",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "firelensConfiguration": {
+                "type": "fluentbit",
+                "options": {
+                    "config-file-type": "file",
+                    "config-file-value": "/fluent-bit/configs/parse-json.conf",
+                    "enable-ecs-log-metadata": "true"
+                }
+            }
+        }
+    ],
+    "family": "jonlim-fargate-app-and-datadog",
+    "taskRoleArn": "arn:aws:iam::601427279990:role/ecsExecTaskRole",
+    "executionRoleArn": "arn:aws:iam::601427279990:role/ecsExecTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 35,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "ecs.capability.firelens.options.config.file"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awsfirelens"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.24"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "ecs.capability.firelens.fluentbit"
+        },
+        {
+            "name": "ecs.capability.pid-ipc-namespace-sharing"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "pidMode": "task",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-02-27T14:15:27.911Z",
+    "registeredBy": "arn:aws:sts::601427279990:assumed-role/AWSReservedSSO_account-admin_18a9d6e974997719/jonathan.lim@datadoghq.com",
+    "tags": [
+        {
+            "key": "User",
+            "value": "jonathan.lim@datadoghq.com"
+        },
+        {
+            "key": "team",
+            "value": "sales-eng-apj"
+        },
+        {
+            "key": "user",
+            "value": "jonathan.lim"
+        },
+        {
+            "key": "please_keep_my_resource",
+            "value": "true"
+        }
+    ]
+}

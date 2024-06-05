@@ -1,0 +1,122 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "flask_backend_fargate",
+            "image": "<redacted>",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "flask_backend_fargate-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                },
+                {
+                    "name": "flask_backend_fargate-5500-tcp",
+                    "containerPort": 5500,
+                    "hostPort": 5500,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "DD_TRACE_SAMPLE_RATE",
+                    "value": "1"
+                },
+                {
+                    "name": "DD_VERSION",
+                    "value": "1.0.1"
+                },
+
+                {
+                    "name": "DD_SERVICE",
+                    "value": "fargate-ecs-backend"
+                },
+                {
+                    "name": "DD_ENV",
+                    "value": "fargate-ecs"
+                },                
+                {
+                    "name": "DD_APM_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_RUNTIME_METRICS_ENABLED",
+                    "value": "true"
+                }              
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "dockerLabels": {
+                "com.datadoghq.tags.env": "fargate-ecs",
+                "com.datadoghq.tags.service": "fargate-ecs-backend",
+                "com.datadoghq.tags.version": "1.0.1"              
+            }
+        },
+        {
+            "name": "datadog-agent",
+            "image": "public.ecr.aws/datadog/agent:latest",
+            "cpu": 256,
+            "memoryReservation": 512,
+            "portMappings": [
+                {
+                    "name": "datadog-agent-8126-tcp",
+                    "containerPort": 8126,
+                    "hostPort": 8126,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": false,
+            "environment": [
+                {
+                    "name": "ECS_FARGATE",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_APM_ENABLED",
+                    "value": "true"
+                },
+                {
+                    "name": "DD_API_KEY",
+                    "value": "<redacted>"
+                },
+                {
+                    "name": "DD_SITE",
+                    "value": "datadoghq.com"
+                },               
+                {
+                    "name": "DD_CONTAINER_EXCLUDE",
+                    "value": "image:^aws-fargate-pause$"
+                },
+                {
+                    "name": "DD_PROCESS_AGENT_PROCESS_COLLECTION_ENABLED",
+                    "value": "true"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": []
+        }
+    ],
+    "family": "<redacted>",
+    "taskRoleArn": "arn:aws:iam::601427279990:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::601427279990:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "status": "ACTIVE",
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "pidMode": "task",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}    
