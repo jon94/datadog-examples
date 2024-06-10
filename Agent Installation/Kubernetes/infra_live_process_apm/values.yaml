@@ -34,7 +34,7 @@ datadog:
     nonLocalTraffic: true    
   processAgent:
     enabled: true
-    processCollection: false
+    processCollection: true
   systemProbe:
     enableTCPQueueLength: false
     enableOOMKill: true
