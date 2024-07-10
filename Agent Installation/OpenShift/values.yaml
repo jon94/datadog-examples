@@ -1,6 +1,9 @@
 # Features enabled: Logs, Process, Security, USM, NPM, Remote Configuration
 
 datadog:
+  apiKey:
+  appKey:
+  clusterName:
   registry: gcr.io/datadoghq
   tags:
     - env:prod
