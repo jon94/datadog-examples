@@ -14,6 +14,8 @@ datadog:
   # Default value is `datadoghq.com' (the US1 site)
   # Documentation: https://docs.datadoghq.com/getting_started/site/
   site: <place data centre here>
+  ignoreAutoConfig:
+   - cilium  
   dogstatsd:
     # datadog.dogstatsd.port -- Override the Agent DogStatsD port
 
