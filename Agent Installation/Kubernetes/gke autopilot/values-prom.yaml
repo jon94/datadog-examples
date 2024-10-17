@@ -85,7 +85,18 @@ agents:
           memory: 200Mi
 
   priorityClassCreate: true
+  tolerations:
+  - key: "cloud.google.com/compute-class"
+    operator: "Equal"
+    value: "Balanced"
+    effect: "NoSchedule"  
 
+clusterAgent:
+  tolerations:
+  - key: "cloud.google.com/compute-class"
+    operator: "Equal"
+    value: "Balanced"
+    effect: "NoSchedule"    
 providers:
   gke:
     autopilot: true
