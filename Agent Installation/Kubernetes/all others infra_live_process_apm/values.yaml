@@ -16,7 +16,11 @@ datadog:
   site: <place the site accordingly>
   prometheusScrape:
     enabled: true
-    serviceEndpoints: true   
+    serviceEndpoints: true
+    additionalConfigs:
+      - configurations:
+        - exclude_metrics:
+            - go_memstats_m.*    
   tags: []
   # datadog.kubelet.tlsVerify should be `false` on kind and minikube
   # to establish communication with the kubelet
