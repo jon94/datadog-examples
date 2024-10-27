@@ -36,7 +36,3 @@ datadog:
   processAgent:
     enabled: true
     processCollection: true
-  systemProbe:
-    enableTCPQueueLength: false
-    enableOOMKill: true
-    collectDNSStats: false
