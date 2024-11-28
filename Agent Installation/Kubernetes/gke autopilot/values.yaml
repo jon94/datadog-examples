@@ -56,7 +56,7 @@ datadog:
     processCollection: true  
 agents:
   image:
-    tag: 7.57.2 
+    tag: 7.59.0 
   containers:
     agent:
       # resources for the Agent container
