@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: <redacted>
   namespace: <redacted>
+  labels:
+    tags.datadoghq.com/env: dev  # Add here for unified service tagging
+    tags.datadoghq.com/service: phpservice # Add here for unified service tagging
+    tags.datadoghq.com/version: 1.0.0 # Add here for unified service tagging  
 spec:
   selector:
     matchLabels:
@@ -17,6 +21,10 @@ spec:
     metadata:
       labels:
         app: <redacted>
+        admission.datadoghq.com/enabled: "true" # Add here for tag propagation
+        tags.datadoghq.com/env: dev   # Add here for unified service tagging
+        tags.datadoghq.com/service: adservice    # Add here for unified service tagging
+        tags.datadoghq.com/version: 1.0.0    # Add here for unified service tagging        
     spec:
       containers:
       - image: <redacted>
