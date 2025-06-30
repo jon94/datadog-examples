@@ -1,6 +1,6 @@
 datadog:
-  apiKey: <DATADOG_API_KEY>
-  appKey: <DATADOG_APP_KEY>
+  apiKeyExistingSecret: datadog-secret
+  appKeyExistingSecret: datadog-secret  
   clusterName: <CLUSTER_NAME>
   kubelet:
     tlsVerify: false
