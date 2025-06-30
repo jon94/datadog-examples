@@ -44,3 +44,27 @@ datadog:
     enableTCPQueueLength: false
     enableOOMKill: true
     collectDNSStats: false
+clusterChecksRunner: 
+  enabled: true          
+clusterAgent:
+  enabled: true
+  confd:
+    sqlserver.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+      - host: xxxx
+        username: xxxxx
+        password: 'xxxxx'
+        connector: 'odbc'
+        driver: 'ODBC Driver 18 for SQL Server'
+        database_autodiscovery: true
+        schemas_collection:
+          enabled: true
+        dbm: true
+        tags:  
+          - 'xxxx'
+          - 'env:non-production'
+        azure:
+          deployment_type: 'sql_database'
+          fully_qualified_domain_name: 'xxxx'         
