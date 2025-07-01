@@ -1,0 +1,281 @@
+# targetSystem -- Target OS for this deployment (possible values: linux, windows)
+targetSystem: "linux"
+
+datadog:
+  tags:
+    - "env:otel-sbom"
+# datadog.apiKey -- Your Datadog API key
+
+  ## ref: https://app.datadoghq.com/account/settings#agent/kubernetes
+  apiKey: 
+
+  # datadog.appKey -- Datadog APP key required to use metricsProvider
+
+  ## If you are using clusterAgent.metricsProvider.enabled = true, you must set
+  ## a Datadog application key for read access to your metrics.
+  appKey: 
+
+# datadog.clusterName -- Set a unique cluster name to allow scoping hosts and Cluster Checks easily
+
+## The name must be unique and must be dot-separated tokens with the following restrictions:
+## * Lowercase letters, numbers, and hyphens only.
+## * Must start with a letter.
+## * Must end with a number or a letter.
+## * Overall length should not be higher than 80 characters.
+## Compared to the rules of GKE, dots are allowed whereas they are not allowed on GKE:
+## https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#Cluster.FIELDS.name
+  clusterName: otel-sbom
+  autoscaling:
+    workload:
+      enabled: true
+  kubernetesEvents:
+    unbundleEvents: true  
+  env: 
+    - name: DD_APM_FEATURES
+      value: 'enable_cid_stats'
+   # - name: DD_CONTAINER_EXCLUDE
+    #  value: "image:.*"
+   # - name: DD_CONTAINER_EXCLUDE
+   #   value: "name:^istio-proxy$"
+#datadog.namespacelabelsastags
+  namespaceLabelsAsTags:
+    location: location
+  remoteConfiguration:
+    # datadog.remoteConfiguration.enabled -- Set to true to enable remote configuration.
+    # Consider using remoteConfiguration.enabled instead
+    enabled: true
+  securityAgent:
+    runtime:
+      enabled: true
+      fimEnabled: true
+    compliance:
+      enabled: true
+      host_benchmarks:
+        enabled: true  	
+  networkMonitoring:
+    enabled: true
+  apm:
+    socketEnabled: false	
+    portEnabled: true
+    port: 8126
+    instrumentation:
+      enabled: true
+      targets:
+        - name: "nodejsv4"
+          podSelector:
+            matchLabels:
+              app: "simple-nodejs"
+          ddTraceVersions:
+            js: "4"
+          ddTraceConfigs:   ## trace configs set for services in matching pods
+            - name: "DD_SERVICE"
+              value: "nodejsv4"
+            - name: "DD_ENV"
+              value: "ssi"
+            - name: "DD_DSM_ENABLED"
+              value: "true"
+        - name: "nodejsv5"
+          podSelector:
+            matchLabels:
+              app: "simple-nodejs-1"
+          ddTraceVersions:
+            js: "5"
+          ddTraceConfigs:   ## trace configs set for services in matching pods
+            - name: "DD_SERVICE"
+              value: "nodejsv5"
+            - name: "DD_ENV"
+              value: "ssi"
+            - name: "DD_DSM_ENABLED"
+              value: "true"
+        - name: "adservice"
+          namespaceSelector:
+            matchNames:
+              - "singlestepinstrumentation"
+          ddTraceVersions:
+            java: "latest"    
+          ddTraceConfigs:   ## trace configs set for services in matching pods
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app']
+  kubernetesResourcesLabelsAsTags:
+    pods:
+      app: service
+    deployments.apps:
+      app: service
+  dogstatsd:
+    port: 8125	
+    useHostPort: true
+    nonLocalTraffic: true
+  processAgent:
+    enabled: true
+    processCollection: true
+  prometheusScrape:
+    enabled: true
+    serviceEndpoints: true
+    additionalConfigs:
+      - configurations:
+          - max_returned_metrics: 10000    
+## Enable logs agent and provide custom configs
+  logs:
+    # datadog.logs.enabled -- Enables this to activate Datadog Agent log collection
+
+    ## ref: https://docs.datadoghq.com/agent/basic_agent_usage/kubernetes/#log-collection-setup
+    enabled: true
+
+    # datadog.logs.containerCollectAll -- Enable this to allow log collection for all containers
+
+    ## ref: https://docs.datadoghq.com/agent/basic_agent_usage/kubernetes/#log-collection-setup
+    containerCollectAll: true
+
+    # datadog.logs.containerCollectUsingFiles -- Collect logs from files in /var/log/pods instead of using container runtime API
+
+    ## It's usually the most efficient way of collecting logs.
+    ## ref: https://docs.datadoghq.com/agent/basic_agent_usage/kubernetes/#log-collection-setup
+    containerCollectUsingFiles: true
+
+    # datadog.logs.autoMultiLineDetection -- Allows the Agent to detect common multi-line patterns automatically.
+
+    ## ref: https://docs.datadoghq.com/agent/logs/advanced_log_collection/?tab=configurationfile#automatic-multi-line-aggregation
+    autoMultiLineDetection: true
+  podLabelsAsTags:
+    country: country
+  orchestratorExplorer:
+    enabled: true
+    customResources:
+      - demo.demo.jonlimpw.io/v1/deploymentlabelchecks   	
+## OTLP ingest related configuration
+  otlp:
+    receiver:
+      protocols:
+        # datadog.otlp.receiver.protocols.grpc - OTLP/gRPC configuration
+        grpc:
+          # datadog.otlp.receiver.protocols.grpc.enabled -- Enable the OTLP/gRPC endpoint
+          enabled: true
+          # datadog.otlp.receiver.protocols.grpc.endpoint -- OTLP/gRPC endpoint
+          endpoint: "0.0.0.0:4317"
+          # datadog.otlp.receiver.protocols.grpc.useHostPort -- Enable the Host Port for the OTLP/gRPC endpoint
+          useHostPort: true
+
+        # datadog.otlp.receiver.protocols.http - OTLP/HTTP configuration
+        http:
+          # datadog.otlp.receiver.protocols.http.enabled -- Enable the OTLP/HTTP endpoint
+          enabled: true
+          # datadog.otlp.receiver.protocols.http.endpoint -- OTLP/HTTP endpoint
+          endpoint: "0.0.0.0:4318"
+          # datadog.otlp.receiver.protocols.http.useHostPort -- Enable the Host Port for the OTLP/HTTP endpoint
+          useHostPort: true
+
+  containerImageCollection:
+    # datadog.containerImageCollection.enabled -- Enable collection of container image metadata
+
+    # This parameter requires Agent version 7.46+
+    enabled: true
+
+# Software Bill of Materials configuration
+  sbom:
+    containerImage:
+      # datadog.sbom.containerImage.enabled -- Enable SBOM collection for container images
+      enabled: true
+      uncompressedLayersSupport: true
+
+    host:
+      # datadog.sbom.host.enabled -- Enable SBOM collection for host filesystems
+      enabled: true
+
+## This is the Datadog Cluster Agent implementation that handles cluster-wide
+## metrics more cleanly, separates concerns for better rbac, and implements
+## the external metrics API so you can autoscale HPAs based on datadog metrics
+## ref: https://docs.datadoghq.com/agent/kubernetes/cluster/
+clusterAgent:
+# clusterAgent.enabled -- Set this to false to disable Datadog Cluster Agent
+  enabled: true
+# clusterAgent.priorityClassName -- Name of the priorityClass to apply to the Cluster Agent
+  priorityClassName: system-node-critical
+
+  replicas: 2  
+## Define the Datadog Cluster-Agent image to work with
+  image:
+    # clusterAgent.image.name -- Cluster Agent image name to use (relative to `registry`)
+    name: cluster-agent
+
+  # clusterAgent.image.tag -- Cluster Agent image tag to use
+    tag: 7.67.0
+  env:
+    - name: DD_ORCHESTRATOR_EXPLORER_CUSTOM_SENSITIVE_WORDS
+      value: "drookout"
+
+agents:
+# agents.enabled -- You should keep Datadog DaemonSet enabled!
+
+## The exceptional case could be a situation when you need to run
+## single Datadog pod per every namespace, but you do not need to
+## re-create a DaemonSet for every non-default namespace install.
+## Note: StatsD and DogStatsD work over UDP, so you may not
+## get guaranteed delivery of the metrics in Datadog-per-namespace setup!
+  enabled: true
+  podAnnotations:
+      container.apparmor.security.beta.kubernetes.io/agent: unconfined  
+
+  ## Define the Datadog image to work with
+  image:
+    # agents.image.name -- Datadog Agent image name to use (relative to `registry`)
+
+    ## use "dogstatsd" for Standalone Datadog Agent DogStatsD 7
+    name: agent
+
+    # agents.image.tag -- Define the Agent version to use
+    tag: 7.67.0
+
+containers:
+  processAgent:
+    env:
+      - name: DD_ORCHESTRATOR_EXPLORER_CUSTOM_SENSITIVE_WORDS
+        value: "drookout"    
+#   agent:
+    # agents.containers.agent.env -- Additional environment variables for the agent container
+    # env:
+    # - name: DD_SBOM_CONTAINER_IMAGE_USE_MOUNT
+    #   value: "true"
+
+    # agents.containers.agent.securityContext -- Allows you to overwrite the default container SecurityContext for the agent container.
+    # securityContext:
+    #   privileged: false
+    #   capabilities:
+    #     add: ["SYS_ADMIN"]
+
+# agents.volumes -- Specify additional volumes to mount in the dd-agent container
+  # volumes:
+  #   - hostPath:
+  #       path: /var/lib/containerd
+  #     name: containerd-vol
+
+  # agents.volumeMounts -- Specify additional volumes to mount in all containers of the agent pod
+  # volumeMounts:
+  #   - mountPath: /host/var/lib/containerd
+  #     name: containerd-vol
+clusterChecksRunner:
+  # clusterChecksRunner.enabled -- If true, deploys agent dedicated for running the Cluster Checks instead of running in the Daemonset's agents.
+
+  ## If both clusterChecksRunner.enabled and datadog.kubeStateMetricsCore.enabled are true, consider enabling datadog.kubeStateMetricsCore.useClusterCheckRunners as well.
+  ## If datadog.kubeStateMetricsCore.useClusterCheckRunners is enabled, it's recommended to enable this flag as well so all Cluster Checks run on Cluster Checks Runners instead of node agents.
+  ## ref: https://docs.datadoghq.com/agent/autodiscovery/clusterchecks/
+  enabled: true
+
+  ## Define the Datadog image to work with.
+  image:
+    # clusterChecksRunner.image.name -- Datadog Agent image name to use (relative to `registry`)
+    name: agent
+
+    # clusterChecksRunner.image.tag -- Define the Agent version to use
+    tag: 7.67.0
+
+    # clusterChecksRunner.image.digest -- Define Agent image digest to use, takes precedence over tag if specified
+    digest: ""
+
+    # clusterChecksRunner.image.tagSuffix -- Suffix to append to Agent tag
+
+    ## Ex:
+    ##  jmx        to enable jmx fetch collection
+    ##  servercore to get Windows images based on servercore
+    tagSuffix: jmx
