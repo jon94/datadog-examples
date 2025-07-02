@@ -4,6 +4,12 @@ datadog:
   clusterName: <CLUSTER_NAME>
   kubelet:
     tlsVerify: false
+  apm:
+    portEnabled: false    
+    socketEnabled: true  
+  processAgent:
+    enabled: true
+    processCollection: true    
 agents:
   tolerations:
     - effect: NoSchedule
