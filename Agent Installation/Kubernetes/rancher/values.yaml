@@ -1,6 +1,7 @@
 datadog:
   apiKeyExistingSecret: datadog-secret
-  appKeyExistingSecret: datadog-secret  
+  appKeyExistingSecret: datadog-secret 
+  site: datadoghq.eu
   clusterName: <CLUSTER_NAME>
   tags:
     - "env:xxx"  
