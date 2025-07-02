@@ -2,6 +2,8 @@ datadog:
   apiKeyExistingSecret: datadog-secret
   appKeyExistingSecret: datadog-secret  
   clusterName: <CLUSTER_NAME>
+  tags:
+    - "env:xxx"  
   kubelet:
     tlsVerify: false
   apm:
