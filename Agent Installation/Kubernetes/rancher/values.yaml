@@ -22,8 +22,8 @@ datadog:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.labels['app']
-            - name: "DD_RUNTIME_METRICS_ENABLED"
-              value: "true"
+            - name: DD_RUNTIME_METRICS_ENABLED
+              value: true
   kubernetesResourcesLabelsAsTags:
     pods:
       app: service
