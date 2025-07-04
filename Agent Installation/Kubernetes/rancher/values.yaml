@@ -1,37 +1,41 @@
 datadog:
   apiKeyExistingSecret: datadog-secret
-  appKeyExistingSecret: datadog-secret 
+  appKeyExistingSecret: datadog-secret
   site: datadoghq.eu
-  clusterName: <CLUSTER_NAME>
+  clusterName: staging-poc
   tags:
-    - "env:xxx"  
+    - "env:staging"
   kubelet:
     tlsVerify: false
   apm:
-    portEnabled: false    
+    portEnabled: false
     socketEnabled: true
     instrumentation:
       enabled: true
       targets:
-        - name: "instrumentall"
+        - name: "ssi"
+          namespaceSelector:
+            matchNames:
+              - "namespace1"
+              - "namespace2"
+              - "namespace3"
+              - "namespace4"
           ddTraceVersions:
-            java: "1"          
+            java: "1"
             js: "5"
           ddTraceConfigs:
             - name: DD_SERVICE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.labels['app']
-            - name: DD_RUNTIME_METRICS_ENABLED
-              value: true
   kubernetesResourcesLabelsAsTags:
     pods:
       app: service
     deployments.apps:
-      app: service                  
+      app: service
   processAgent:
     enabled: true
-    processCollection: true    
+    processCollection: true
 agents:
   tolerations:
     - effect: NoSchedule
@@ -41,4 +45,4 @@ agents:
       key: node-role.kubernetes.io/etcd
       operator: Exists
 clusterAgent:
-  useHostNetwork: true      
+  useHostNetwork: true
