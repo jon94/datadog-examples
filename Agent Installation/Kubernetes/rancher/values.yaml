@@ -9,7 +9,19 @@ datadog:
     tlsVerify: false
   apm:
     portEnabled: false    
-    socketEnabled: true  
+    socketEnabled: true
+    instrumentation:
+      enabled: true
+      targets:
+        - name: "instrumentall"
+          ddTraceVersions:
+            java: "1"          
+            js: "5"
+          ddTraceConfigs:
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app']    
   processAgent:
     enabled: true
     processCollection: true    
