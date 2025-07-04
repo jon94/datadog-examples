@@ -40,3 +40,5 @@ agents:
     - effect: NoExecute
       key: node-role.kubernetes.io/etcd
       operator: Exists
+clusterAgent:
+  useHostNetwork: true      
