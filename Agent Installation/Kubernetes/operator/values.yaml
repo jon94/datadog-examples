@@ -1,0 +1,40 @@
+replicaCount: 1
+apiKeyExistingSecret: datadog-operator-secret
+appKeyExistingSecret: datadog-operator-secret
+clusterName: jonmcse-dd-operator
+image:
+  repository: gcr.io/datadoghq/operator
+  tag: 1.17.0-rc.2
+  pullPolicy: IfNotPresent
+  doNotCheckTag: false
+metricsPort: 8383
+datadogAgent:
+  enabled: true
+datadogDashboard:
+  enabled: true
+datadogGenericResource:
+  enabled: true
+datadogMonitor:
+  enabled: true
+datadogSLO:
+  enabled: true
+remoteConfiguration:
+  enabled: true
+installCRDs: true
+introspection:
+  enabled: true
+datadogCRDs:
+  crds:
+    datadogAgents: true
+    datadogMetrics: true
+    datadogPodAutoscalers: true
+    datadogMonitors: true
+    datadogSLOs: true
+    datadogDashboards: true
+    datadogGenericResources: true
+collectOperatorMetrics: true
+watchNamespacesMonitor:
+- "ddassets"
+- "datadog"
+watchNamespaces:
+- ""

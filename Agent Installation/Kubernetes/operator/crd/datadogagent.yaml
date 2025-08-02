@@ -1,0 +1,96 @@
+apiVersion: datadoghq.com/v2alpha1
+kind: DatadogAgent
+metadata:
+  name: datadog
+  namespace: datadog
+spec:
+  global:
+    clusterName: jonmcse-dd-operator
+    credentials:
+      apiSecret:
+        secretName: datadog-operator-secret
+        keyName: api-key
+      appSecret:
+        secretName: datadog-operator-secret
+        keyName: app-key
+    kubernetesResourcesLabelsAsTags:
+      pods:
+        app: service
+      deployments.apps:
+        app: service
+      replicasets.apps:
+        app: service
+    site: datadoghq.com
+    tags:
+    - env:prod
+  #this is required if you want to use the latest agent image as ddoperator is about 2 minor version behind the helm method.  
+  override:
+    nodeAgent:
+      image:
+        name: gcr.io/datadoghq/agent:latest
+    clusterAgent:
+      image:
+        name: gcr.io/datadoghq/cluster-agent:latest   
+  features:
+    logCollection:
+      enabled: true
+    liveProcessCollection:
+      enabled: true
+    liveContainerCollection:
+      enabled: true
+    processDiscovery:
+      enabled: true
+    ebpfCheck:
+      enabled: true
+    apm:
+      enabled: true
+      instrumentation:
+        enabled: true
+        targets:
+        - name: select-these
+          # podSelector:
+          #   matchLabels:
+          #     inject-all: "true"
+          ddTraceConfigs:
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['app']
+            - name: DD_RUNTIME_METRICS_ENABLED
+              value: "true"
+    cspm:
+      enabled: true
+    cws:
+      enabled: true
+    npm:
+      enabled: true
+    usm:
+      enabled: true
+    dogstatsd:
+      unixDomainSocketConfig:
+        enabled: true
+    otlp:
+      receiver:
+        protocols:
+          grpc:
+            enabled: true
+    remoteConfiguration:
+      enabled: true
+    sbom:
+      enabled: true
+    serviceDiscovery:
+      enabled: true
+      networkStats:
+        enabled: true
+    eventCollection:
+      collectKubernetesEvents: true
+    orchestratorExplorer:
+      enabled: true
+    kubeStateMetricsCore:
+      enabled: true
+    admissionController:
+      enabled: true
+    externalMetricsServer:
+      enabled: true
+    clusterChecks:
+      enabled: true
