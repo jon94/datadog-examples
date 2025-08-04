@@ -1,4 +1,5 @@
 - Using an unscoped App Key in Datadog
+<img width="562" height="583" alt="image" src="https://github.com/user-attachments/assets/79de4251-270a-4837-a562-6956b1beab9c" />
 
 # Create Datadog Operator
 This will only install the Datadog Operator Component. You will still need to create the CRD later.
@@ -60,6 +61,3 @@ datadogdashboard.datadoghq.com/example-dashboard   z62-58b-vth   OK            4
 <img width="1628" height="320" alt="image" src="https://github.com/user-attachments/assets/dd713480-3fda-4984-8735-cb961b24fbeb" />
 
 <img width="1636" height="289" alt="image" src="https://github.com/user-attachments/assets/0dc27de3-01fd-4cb5-884d-49a92b7e08e5" />
-
-
-
