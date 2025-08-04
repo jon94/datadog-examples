@@ -1,4 +1,5 @@
 - This assumes you already have a working kubernetes cluster
+- Using an unscoped App Key in Datadog
 
 # Create Datadog Operator
 This will only install the Datadog Operator Component. You will still need to create the CRD later.
