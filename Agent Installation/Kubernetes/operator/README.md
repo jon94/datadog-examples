@@ -58,6 +58,9 @@ datadogdashboard.datadoghq.com/example-dashboard   z62-58b-vth   OK            4
 ```
 
 # Validate in Datadog UI
-![Uploading image.png…](Dashboard created by operator)
-![Uploading image.png…](Monitor created by operator)
+<img width="1628" height="320" alt="image" src="https://github.com/user-attachments/assets/dd713480-3fda-4984-8735-cb961b24fbeb" />
+
+<img width="1636" height="289" alt="image" src="https://github.com/user-attachments/assets/0dc27de3-01fd-4cb5-884d-49a92b7e08e5" />
+
+
 
