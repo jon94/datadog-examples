@@ -1,4 +1,4 @@
-- This assumes you already have a working kubernetes cluster
+<img width="1628" height="315" alt="image" src="https://github.com/user-attachments/assets/b858764e-aa73-45d1-a7fa-17216ac3d051" />- This assumes you already have a working kubernetes cluster
 - Using an unscoped App Key in Datadog
 
 # Create Datadog Operator
@@ -58,3 +58,6 @@ datadogdashboard.datadoghq.com/example-dashboard   z62-58b-vth   OK            4
 ```
 
 # Validate in Datadog UI
+![Uploading image.png…](Dashboard created by operator)
+![Uploading image.png…](Monitor created by operator)
+
