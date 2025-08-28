@@ -1,7 +1,7 @@
 api_key: xxxxx
 site: datadoghq.com
 tags:
-  - vista:connect
+  - datadog:true
 env: staging
 logs_enabled: true
 process_config:
