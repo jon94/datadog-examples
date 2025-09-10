@@ -101,6 +101,7 @@ datadog:
   kubernetesResourcesLabelsAsTags:
     pods:
       app: service
+      app.kubernetes.io/name: service
     deployments.apps:
       app: service
   dogstatsd:
