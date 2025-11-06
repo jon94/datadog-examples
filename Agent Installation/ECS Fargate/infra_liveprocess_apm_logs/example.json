@@ -146,6 +146,7 @@
     ],
     "cpu": "512",
     "memory": "1024",
+    "pidMode": "task",    
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
