@@ -6,7 +6,6 @@
             "dockerLabels": {
                 "com.datadoghq.tags.service": "fargate-app",
                 "com.datadoghq.tags.env": "staging",
-                "com.datadoghq.tags.version": "1.0.0",
                 "com.docker.service.name": "fargate-app"                                
             },
             "environment": [
@@ -33,11 +32,7 @@
                 {
                     "name": "DD_ENV",
                     "value": "staging"
-                },
-                {
-                    "name": "DD_VERSION",
-                    "value": "1.0.0"
-                },                
+                },              
                 {
                     "name": "DD_APPSEC_SCA_ENABLED",
                     "value": "true"
