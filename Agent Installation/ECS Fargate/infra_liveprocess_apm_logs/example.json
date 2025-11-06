@@ -62,7 +62,7 @@
                     "dd_service": "fargate-app",
                     "Host": "http-intake.logs.datadoghq.com",
                     "TLS": "on",
-                    "dd_source": "csharp",
+                    "dd_source": "java",
                     "Name": "datadog"
                 }
             },
