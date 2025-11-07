@@ -1,5 +1,6 @@
 logs:
   - type: file
-    path: "<DRIVE_LETTER>:\\<PATH_LOG_FILE>\\<LOG_FILE_NAME>.log"
-    service: "vistaconnect"
-    source: "vista"
+    path: "D:\\Vista\\Log\\Vista.Connect.WSVistaWebClient.log"
+    service: "Vistawebclient"
+    source: "wsvistawebclient"
+    auto_multi_line_detection: true    
