@@ -50,7 +50,7 @@ RUN echo "env[DD_VERSION] = php8.2" >> /etc/php/8.2/fpm/pool.d/www.conf
 # installation of datadog tracer and activate
 
 RUN curl -LO https://github.com/DataDog/dd-trace-php/releases/latest/download/datadog-setup.php
-RUN php datadog-setup.php --php-bin=all
+RUN php datadog-setup.php --php-bin=all --enable-profiling
 
 
 # CMD service cron start && /etc/init.d/php8.2-fpm start -F && nginx -g "daemon off;"
