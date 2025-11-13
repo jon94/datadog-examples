@@ -42,7 +42,7 @@ RUN apt-get update -y
 ## Add Datadog Variables for APM
 
 RUN echo "clear_env = no" >> /etc/php/8.2/fpm/pool.d/www.conf
-RUN echo "env[DD_AGENT_HOST] = $DD_AGENT_HOST" >> /etc/php/8.2/fpm/pool.d/www.conf
+# RUN echo "env[DD_AGENT_HOST] = $DD_AGENT_HOST" >> /etc/php/8.2/fpm/pool.d/www.conf
 RUN echo "env[DD_ENV] = production" >> /etc/php/8.2/fpm/pool.d/www.conf 
 RUN echo "env[DD_SERVICE] = test" >> /etc/php/8.2/fpm/pool.d/www.conf 
 RUN echo "env[DD_VERSION] = php8.2" >> /etc/php/8.2/fpm/pool.d/www.conf
