@@ -35,3 +35,20 @@ datadog:
   processAgent:
     enabled: true
     processCollection: true
+## Uncomment if needed tolerations    
+  # clusterAgent:
+  #   tolerations:
+  #       - key: node-role.kubernetes.io/controlplane
+  #         operator: Exists
+  #         effect: NoSchedule
+  #       - key: node-role.kubernetes.io/etcd
+  #         operator: Exists
+  #         effect: NoExecute
+  # agent:
+  #   tolerations:
+  #       - key: node-role.kubernetes.io/controlplane
+  #         operator: Exists
+  #         effect: NoSchedule
+  #       - key: node-role.kubernetes.io/etcd
+  #         operator: Exists
+  #         effect: NoExecute
