@@ -4,3 +4,10 @@ logs:
     service: "Vistawebclient"
     source: "wsvistawebclient"
     auto_multi_line_detection: true    
+
+
+
+
+
+
+## icacls "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Log" /grant "*S-1-1-0:(OI)(CI)RX" /T
