@@ -1,0 +1,10 @@
+datadog:
+  clusterName: <CLUSTER_NAME>
+  apiKey: <DATADOG_API_KEY>
+  appKey: <DATADOG_APP_KEY>
+  operator:
+    enabled: false
+
+providers:
+  aks:
+    enabled: true
