@@ -55,9 +55,6 @@ datadog:
   networkMonitoring:
     enabled: true
   apm:
-    socketEnabled: false	
-    portEnabled: true
-    port: 8126
     instrumentation:
       enabled: true
       targets:
