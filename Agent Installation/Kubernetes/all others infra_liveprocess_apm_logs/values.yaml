@@ -21,6 +21,8 @@ datadog:
   # to establish communication with the kubelet
   # kubelet:
     # tlsVerify: "false"
+  operator:
+    enabled: false    
   logs:
     enabled: true
     containerCollectAll: true
