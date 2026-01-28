@@ -3,6 +3,8 @@ datadog:
   appKeyExistingSecret: datadog-secret
   site: datadoghq.eu
   clusterName: staging-poc
+  operator:
+    enabled: false  
   tags:
     - "env:staging"
   kubelet:
