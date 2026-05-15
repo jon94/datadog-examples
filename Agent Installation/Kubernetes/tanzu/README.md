@@ -1,3 +1,5 @@
+https://docs.datadoghq.com/containers/kubernetes/installation/?tab=helm#installation
+
 ## values.yaml
 
 - Feel free to use the values.yaml file that is provided in the repo.
