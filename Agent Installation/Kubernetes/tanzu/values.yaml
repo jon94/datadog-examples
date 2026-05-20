@@ -21,6 +21,16 @@ datadog:
     enabled: true
     containerCollectAll: true
     containerCollectUsingFiles: true
+    
+  env:
+    - name: DD_PROXY_HTTPS
+      value: "http://10.27.208.188:8080"
+    - name: DD_PROXY_HTTP
+      value: "http://10.27.208.188:8080"
+    - name: DD_NO_PROXY_NONEXACT_MATCH
+      value: "true"
+    - name: DD_PROXY_NO_PROXY
+      value: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"    
 
   apm:
     instrumentation:
@@ -54,18 +64,6 @@ datadog:
     enabled: true
 
 agents:
-  # ✅ Proxy via env vars (consistent with working config)
-  containers:
-    agent:
-      env:
-        - name: DD_PROXY_HTTPS
-          value: "http://ispxyp01.hksmartone.com:443"
-        - name: DD_PROXY_HTTP
-          value: "http://ispxyp01.hksmartone.com:443"
-        - name: DD_NO_PROXY_NONEXACT_MATCH
-          value: "true"
-        - name: DD_PROXY_NO_PROXY
-          value: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
   tolerations:
     - key: node-role.kubernetes.io/master
       effect: NoSchedule
