@@ -4,7 +4,7 @@ datadog:
   apiKeyExistingSecret: <DATADOG_API_KEY_SECRET>
   appKeyExistingSecret: <DATADOG_APP_KEY_SECRET>
   clusterName: <CLUSTER_NAME>
-  site: <place the site accordingly> https://docs.datadoghq.com/getting_started/site/
+  site: datadoghq.com
   tags:
     - "env:uat"
 
