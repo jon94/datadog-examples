@@ -1,0 +1,84 @@
+# Datadog Agent with Logs, APM, Processes, and System Probe enabled
+
+targetSystem: "linux"
+ 
+registry: cctzharbor02.hksmartone.com/datadog
+
+agents:
+  image:
+    repository: cctzharbor02.hksmartone.com/datadog/agent
+    tag: 7.78.3
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - name: regcred
+ 
+clusterAgent:
+  image:
+    repository: cctzharbor02.hksmartone.com/datadog/cluster-agent
+    tag: 7.78.3
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - name: regcred
+
+  admissionController:
+    autoInstrumentation:
+      containerRegistry: "cctzharbor02.hksmartone.com/datadog/dd-trace-js/dd-trace-js-init:ddeff3633b2a749db74b456f3405adb0e75bf451"
+ 
+datadog:
+  apiKeyExistingSecret: datadog-secret
+  appKeyExistingSecret: datadog-secret
+  clusterName: stcare-uat
+  site: datadoghq.com
+  tags:
+    - "env:uat"
+
+  kubelet:
+    tlsVerify: false
+
+  kubeStateMetricsEnabled: false
+
+  kubeStateMetricsCore:
+    enabled: true
+
+  operator:
+    enabled: false
+
+  logs:
+    enabled: true
+    containerCollectAll: true
+    containerCollectUsingFiles: true
+
+  env:
+    - name: DD_PROXY_HTTPS
+      value: "http://ispxyp01.hksmartone.com:443"
+    - name: DD_PROXY_HTTP
+      value: "http://ispxyp01.hksmartone.com:443"
+    - name: DD_NO_PROXY_NONEXACT_MATCH
+      value: "true"
+    - name: DD_PROXY_NO_PROXY
+      value: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
+
+  kubernetesResourcesLabelsAsTags:
+    pods:
+      app: service
+    deployments.apps:
+      app: service
+  dogstatsd:
+    port: 8125
+    useHostPort: true
+    nonLocalTraffic: true
+  processAgent:
+    enabled: true
+    processCollection: true
+  networkMonitoring:
+    enabled: true
+  apm:
+    instrumentation:
+      enabled: true
+      targets:
+        - name: "namespaceselector"
+          namespaceSelector:
+            matchNames:
+              - "stcare-uat"
+          ddTraceVersions:
+            js: "latest"
