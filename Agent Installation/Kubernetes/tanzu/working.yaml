@@ -29,7 +29,7 @@ clusterAgent:
 
   admissionController:
     autoInstrumentation:
-      containerRegistry: "cctzharbor02.hksmartone.com/datadog/dd-trace-js/dd-trace-js-init:ddeff3633b2a749db74b456f3405adb0e75bf451"
+      containerRegistry: "cctzharbor02.hksmartone.com/datadog
  
 datadog:
   apiKeyExistingSecret: datadog-secret
