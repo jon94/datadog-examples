@@ -31,10 +31,10 @@ datadog:
       value: "true"
     - name: DD_PROXY_NO_PROXY
       value: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"    
-
   apm:
     instrumentation:
       enabled: true
+      initContainerRegistry: "harbor.company.internal/<PROJECT>"
       targets:
         - name: "namespaceselector"
           namespaceSelector:
@@ -42,7 +42,7 @@ datadog:
               - "stcare-uat"
           ddTraceVersions:
             js: "latest"
-
+            
   kubernetesResourcesLabelsAsTags:
     pods:
       app: service
