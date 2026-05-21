@@ -1,5 +1,35 @@
 # Datadog Agent with Logs, APM, Processes, and System Probe enabled
 targetSystem: "linux"
+
+registry: harbor.company.internal/<PROJECT>
+
+agents:
+  image:
+    repository: harbor.company.internal/<PROJECT>/datadog/agent
+    tag: "7"
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - name: harbor-secret
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+
+clusterAgent:
+  image:
+    repository: harbor.company.internal/<PROJECT>/datadog/cluster-agent
+    tag: "7"
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - name: harbor-secret
+
+clusterChecksRunner:
+  image:
+    repository: harbor.company.internal/<PROJECT>/datadog/agent
+    tag: "7"
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - name: harbor-secret
+
 datadog:
   apiKeyExistingSecret: <DATADOG_API_KEY_SECRET>
   appKeyExistingSecret: <DATADOG_APP_KEY_SECRET>
@@ -7,51 +37,38 @@ datadog:
   site: datadoghq.com
   tags:
     - "env:uat"
-
   kubelet:
     tlsVerify: false
-
   kubeStateMetricsEnabled: false
   kubeStateMetricsCore:
     enabled: true
   operator:
     enabled: false
-
   logs:
     enabled: true
     containerCollectAll: true
     containerCollectUsingFiles: true
-    
   env:
     - name: DD_PROXY_HTTPS
-      value: "http://ispxyp01.hksmartone.com:443​"
+      value: "http://ispxyp01.hksmartone.com:443"
     - name: DD_PROXY_HTTP
-      value: "http://ispxyp01.hksmartone.com:443​"
+      value: "http://ispxyp01.hksmartone.com:443"
     - name: DD_NO_PROXY_NONEXACT_MATCH
       value: "true"
     - name: DD_PROXY_NO_PROXY
-      value: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"    
-
+      value: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
   kubernetesResourcesLabelsAsTags:
     pods:
       app: service
       app.kubernetes.io/name: service
     deployments.apps:
       app: service
-
   dogstatsd:
     port: 8125
     useHostPort: true
     nonLocalTraffic: true
-
   processAgent:
     enabled: true
     processCollection: true
-
   networkMonitoring:
     enabled: true
-
-agents:
-  tolerations:
-    - key: node-role.kubernetes.io/master
-      effect: NoSchedule
