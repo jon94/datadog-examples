@@ -95,9 +95,3 @@ datadog:
               value: "true"
             - name: DD_RUNTIME_METRICS_ENABLED
               value: "true"
-            - name: DD_AGENT_HOST 
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
-            - name: DD_DOGSTATSD_PORT
-              value: "8125"
