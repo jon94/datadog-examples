@@ -21,14 +21,9 @@ clusterAgent:
     pullPolicy: IfNotPresent
     pullSecrets:
       - name: harbor-secret
-
-clusterChecksRunner:
-  image:
-    repository: harbor.company.internal/<PROJECT>/datadog/agent
-    tag: "7"
-    pullPolicy: IfNotPresent
-    pullSecrets:
-      - name: harbor-secret
+  admissionController:
+    autoInstrumentation:
+      containerRegistry: "harbor.company.internal/<PROJECT>"      
 
 datadog:
   apiKeyExistingSecret: <DATADOG_API_KEY_SECRET>
@@ -71,3 +66,13 @@ datadog:
     processCollection: true
   networkMonitoring:
     enabled: true
+  apm:
+    instrumentation:
+      enabled: true
+      targets:
+        - name: "namespaceselector"
+          namespaceSelector:
+            matchNames:
+              - "stcare-uat"
+          ddTraceVersions:
+            js: "latest"    
