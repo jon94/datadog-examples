@@ -39,15 +39,13 @@ datadog:
         - name: "namespaceselector"
           namespaceSelector:
             matchNames:
-              - "singlestepinstrumentation"
+              - "stcare-uat"
           ddTraceVersions:
-            java: "latest"
             js: "latest"
 
   kubernetesResourcesLabelsAsTags:
     pods:
       app: service
-      app.kubernetes.io/name: service
     deployments.apps:
       app: service
 
