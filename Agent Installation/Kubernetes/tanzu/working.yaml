@@ -82,3 +82,10 @@ datadog:
               - "stcare-uat"
           ddTraceVersions:
             js: "latest"
+          ddTraceConfigs:
+            - name: "DD_PROFILING_ENABLED" 
+              value: "true"
+            - name: "DD_LOGS_INJECTION" 
+              value: "true"
+            - name: "DD_RUNTIME_METRICS_ENABLED" 
+              value: "true"              
