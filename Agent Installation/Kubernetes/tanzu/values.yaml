@@ -34,7 +34,6 @@ datadog:
   apm:
     instrumentation:
       enabled: true
-      initContainerRegistry: "harbor.company.internal/<PROJECT>"
       targets:
         - name: "namespaceselector"
           namespaceSelector:
