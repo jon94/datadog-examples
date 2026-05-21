@@ -90,14 +90,14 @@ datadog:
             js: "latest"
           ddTraceConfigs:
             - name: DD_PROFILING_ENABLED
-              value: true
+              value: "true"
             - name: DD_LOGS_INJECTION
               value: "true"
             - name: DD_RUNTIME_METRICS_ENABLED
-              value: true
+              value: "true"
             - name: DD_AGENT_HOST 
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
             - name: DD_DOGSTATSD_PORT
-              value: 8125
+              value: "8125"
