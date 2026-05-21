@@ -96,4 +96,9 @@ datadog:
             - name: DD_RUNTIME_METRICS_ENABLED
               value: "true"
             - name: DD_DBM_PROPAGATION_MODE
-              value: "full"             
+              value: "full"
+            - name: DD_DATA_STREAMS_ENABLED
+              value: "true"
+            - name: DD_TRACE_REMOVE_INTEGRATION_SERVICE_NAMES_ENABLED
+              value: "true"                  
+              
