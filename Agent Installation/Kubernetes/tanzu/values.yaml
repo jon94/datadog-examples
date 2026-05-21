@@ -24,9 +24,9 @@ datadog:
     
   env:
     - name: DD_PROXY_HTTPS
-      value: "http://10.27.208.188:8080"
+      value: "http://ispxyp01.hksmartone.com:443​"
     - name: DD_PROXY_HTTP
-      value: "http://10.27.208.188:8080"
+      value: "http://ispxyp01.hksmartone.com:443​"
     - name: DD_NO_PROXY_NONEXACT_MATCH
       value: "true"
     - name: DD_PROXY_NO_PROXY
