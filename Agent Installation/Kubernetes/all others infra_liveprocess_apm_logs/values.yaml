@@ -2,6 +2,8 @@
 
 targetSystem: "linux"
 datadog:
+  tags:
+    - "env:uat"
   # apiKey: <DATADOG_API_KEY>
   # appKey: <DATADOG_APP_KEY>
   # If not using secrets, then use apiKey and appKey instead
