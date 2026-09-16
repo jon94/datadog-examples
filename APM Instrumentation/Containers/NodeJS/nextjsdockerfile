@@ -1,0 +1,11 @@
+FROM node:21
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build          # ← build happens with no tracer
+
+ENV NODE_OPTIONS="--require dd-trace/init"   # ← set it AFTER the build
+EXPOSE 3000
+CMD ["npm", "start"]
