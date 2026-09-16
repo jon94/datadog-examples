@@ -14,6 +14,7 @@
 | DD_VERSION| Unified Service Tagging - Metadata for your app version |
 | DD_SERVICE | Unified Service Tagging - Metadata for your app name |
 | DD_ENV | Unified Service Tagging - Metadata for your app environment |
+| DD_LOGS_INJECTION_ENABLED | Auto Trace ID injection when logs are in JSON |
 | DD_RUNTIME_METRICS_ENABLED | To enable application runtime metrics, not applicable for Golang, as it will be init on code level instead | 
 
 #### Docker Labels for Application Container
